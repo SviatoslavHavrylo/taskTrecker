@@ -1,17 +1,20 @@
 package com.taskTracker.service;
 
+import com.taskTracker.model.UserRating;
 import org.springframework.stereotype.Service;
+
+import java.util.List;
 
 @Service
 public class UserRatingService {
 
-    public String getUserRating(Long userId) {
+    public List<UserRating> getUserRating(List<Long> userIds) {
         WebClient webClient = WebClient.create();
 
         return webClient.get()
-                .uri("http://ratings-service/users/" + userId)
+                .url("http://ratings-service/users/")
                 .retrieve()
-                .bodyToMono(String.class)
+                .bodyToMono(UserRating.class)
                 .block();
     }
 }

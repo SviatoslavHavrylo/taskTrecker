@@ -8,11 +8,10 @@ import org.springframework.data.annotation.LastModifiedDate;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.JoinColumn;
-import javax.persistence.OneToOne;
+import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 import java.io.Serializable;
 import java.util.Date;
@@ -34,12 +33,12 @@ public class Comment implements Serializable {
     @Column(name = "comment")
     private String comment;
 
-    @OneToOne
+    @ManyToOne
     @JoinColumn(name = "user_id")
     private User user;
 
-    @OneToOne
-    @JoinColumn(name = "task_id")
+    @ManyToOne
+    @JoinColumn(name = "task_id", nullable=false)
     private Task task;
 
     @LastModifiedDate

@@ -3,7 +3,7 @@ package com.taskTracker.controller;
 import com.taskTracker.Response;
 import com.taskTracker.common.dto.CommentDto;
 import com.taskTracker.common.dto.TaskDto;
-import com.taskTracker.domain.Task;
+import com.taskTracker.service.TaskCommentService;
 import com.taskTracker.service.TaskService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,21 +22,24 @@ public class TaskTrackerController extends BaseController {
 
     private final TaskService taskService;
 
+    private final TaskCommentService taskCommentService;
+
     @Autowired
-    public TaskTrackerController(TaskService taskService) {
+    public TaskTrackerController(TaskService taskService, TaskCommentService taskCommentService) {
         this.taskService = taskService;
+        this.taskCommentService = taskCommentService;
     }
 
     @GetMapping("/getTaskList")
-    public Response getTasks(@RequestParam(required = false) String division) {
+    public Response getTasks(@RequestParam(required = false) Long divisionId) {
         return handleResponse("get tasks",
-                () -> taskService.getTasks(division));
+                () -> taskService.getTasks(divisionId));
     }
 
-    @GetMapping("/getTaskInfo")
-    public Response getTaskInfo(@RequestParam Long taskId) {
+    @GetMapping("/getTaskDetails")
+    public Response getTaskDetails(@RequestParam Long taskId) {
         return handleResponse("task details",
-                () -> taskService.getTaskInfo(taskId));
+                () -> taskService.getTaskDetails(taskId));
     }
 
     @PostMapping("/createTask")
@@ -54,12 +57,12 @@ public class TaskTrackerController extends BaseController {
     @PostMapping("/createComment")
     public Response createComment(CommentDto commentDto) {
         return handleResponse("asset test created",
-                () -> taskService.createComment(commentDto));
+                () -> taskCommentService.createComment(commentDto));
     }
 
     @DeleteMapping("/deleteComment")
     public Response deleteComment(@RequestParam("commentId") Long commentId) {
         return handleResponse("asset test deleted",
-                () -> taskService.deleteComment(commentId));
+                () -> taskCommentService.deleteComment(commentId));
     }
 }

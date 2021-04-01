@@ -12,7 +12,7 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.JoinColumn;
-import javax.persistence.OneToOne;
+import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 import java.io.Serializable;
 import java.util.Date;
@@ -45,14 +45,14 @@ public class Task implements Serializable {
     @Column(name = "description")
     private String description;
 
-    @Column(name = "status")
+    @Column(name = "status_id")
     private Integer status;
 
-    @OneToOne
+    @ManyToOne
     @JoinColumn(name = "assignee_id")
     private User assignee;
 
-    @OneToOne
+    @ManyToOne
     @JoinColumn(name = "author_id")
     private User author;
 

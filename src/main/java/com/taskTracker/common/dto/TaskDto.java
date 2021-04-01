@@ -17,6 +17,8 @@ public class TaskDto implements Serializable {
 
     private static final long serialVersionUID = 3161236086015520879L;
 
+    private Long taskId;
+
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = DATE_TIME_FORMAT)
     private Date createdDate;
 
@@ -24,19 +26,23 @@ public class TaskDto implements Serializable {
 
     private String description;
 
+    private Integer statusId;
+
     private String status;
 
     private Long divisionId;
 
     private String divisionName;
 
-    private Long userId;
+    private Long assigneeId;
 
-    private String userName;
+    private String assigneeName;
 
     private Double userRating;
 
     private Long authorId;
 
     private String authorName;
+
+    private boolean deleted;
 }
