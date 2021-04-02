@@ -123,7 +123,7 @@ public class TaskService {
     }
 
     public List<Objects> getTaskDetails(Long taskId) {
-        List<CommentDto> comments taskCommentService.getAllComments(taskId);
+        List<CommentDto> comments = taskCommentService.getAllComments(taskId);
         List<AttachmentDto> attachments = attachmentService.getAllArrachments(taskId);
 
         return new TaskDetailsDto(taskId, comments, attachments);
