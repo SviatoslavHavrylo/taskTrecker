@@ -30,12 +30,18 @@ public class Attachment implements Serializable {
     @Column(name = "id", nullable = false, unique = true)
     private Long id;
 
-    @Column(name = "name")
-    private String name;
-
     @ManyToOne
-    @JoinColumn(name = "task_id", nullable=false)
+    @JoinColumn(name = "task_id", nullable = false)
     private Task task;
+
+    @Column(name = "file_name")
+    private String fileName;
+
+    @Column(name = "document_type")
+    private String documentType;
+
+    @Column(name = "document_format")
+    private String documentFormat;
 
     @LastModifiedDate
     @Column(name = "last_modified")

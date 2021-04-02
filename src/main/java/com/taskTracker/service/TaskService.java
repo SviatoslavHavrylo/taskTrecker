@@ -1,6 +1,7 @@
 package com.taskTracker.service;
 
 import com.taskTracker.common.TaskStatusEnum;
+import com.taskTracker.common.dto.AttachmentDto;
 import com.taskTracker.common.dto.CommentDto;
 import com.taskTracker.common.dto.TaskDetailsDto;
 import com.taskTracker.common.dto.TaskDto;
@@ -84,7 +85,7 @@ public class TaskService {
 
         taskDto.setCreatedDate(task.getCreatedDate());
         taskDto.setTitle(task.getTitle());
-        taskDto.setDescription(task.getDescription()) =;
+        taskDto.setDescription(task.getDescription());
         taskDto.setStatus(getStatus(task.getStatus()));
         User assignee = task.getAssignee();
 
@@ -93,8 +94,8 @@ public class TaskService {
             taskDto.setAssigneeName(assignee.getName());
             Division division = assignee.getDivision();
             if (division != null) {
-                taskDto.setDivisionId() = division.getId();
-                taskDto.setDivisionName() = division.getName();
+                taskDto.setDivisionId(division.getId());
+                taskDto.setDivisionName(division.getName());
             }
         }
 
@@ -122,33 +123,37 @@ public class TaskService {
         return TaskStatusEnum.getById(statusId).getStatus();
     }
 
-    public List<Objects> getTaskDetails(Long taskId) {
-        List<CommentDto> comments = taskCommentService.getAllComments(taskId);
-        List<AttachmentDto> attachments = attachmentService.getAllArrachments(taskId);
+    public TaskDetailsDto getTaskDetails(Long taskId) {
+        List<CommentDto> comments = taskCommentService.getAllCommentsByTaskId(taskId);
+        List<AttachmentDto> attachments = attachmentService.getAllArrachmentsByTaskId(taskId);
 
         return new TaskDetailsDto(taskId, comments, attachments);
     }
 
-    public TaskDto createTask(TaskDto taskDto) {
+    public TaskDto createTask(TaskDto taskDto, Long userId) {
         Task task = new Task();
-        task.setDescription(taskDto.getDescription());
+        populateTask(task, taskDto, userId);
         taskRepository.save(task);
 
         return createTaskDtoByTask(task);
     }
 
-    public TaskDto updateTask(TaskDto taskDto) {
+    public TaskDto updateTask(TaskDto taskDto, Long userId) {
         Task task = getTaskById(taskDto.getTaskId());
+        populateTask(task, taskDto, userId);
+        taskRepository.save(task);
+
+        return createTaskDtoByTask(task);
+    }
+
+    private void populateTask(Task task, TaskDto taskDto, Long userId) {
         task.setStatus(taskDto.getStatusId());
 
         User assignee = userService.findUserById(taskDto.getAssigneeId());
         task.setAssignee(assignee);
-        taskRepository.save(task);
-
-        return createTaskDtoByTask(task);
     }
 
-    private Task getTaskById(Long taskId) {
+    public Task getTaskById(Long taskId) {
         if (Objects.isNull(taskId)) new LogicFailException("task id can't be NULL");
 
         return taskRepository.findById(taskId)

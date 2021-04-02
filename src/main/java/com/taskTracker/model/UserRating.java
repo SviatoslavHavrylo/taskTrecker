@@ -10,6 +10,7 @@ import lombok.Setter;
 @AllArgsConstructor
 @NoArgsConstructor
 public class UserRating {
+
     private Long userId;
 
     private Double userRating;

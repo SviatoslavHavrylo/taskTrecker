@@ -15,6 +15,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import javax.servlet.http.HttpServletRequest;
+
 @Slf4j
 @RestController
 @RequestMapping(value = "/taskTracker/v1/")
@@ -43,21 +45,27 @@ public class TaskTrackerController extends BaseController {
     }
 
     @PostMapping("/createTask")
-    public Response createTask(TaskDto taskDto) {
+    public Response createTask(TaskDto taskDto, HttpServletRequest request) {
+        Long userId = getUsername(request);
+
         return handleResponse("task created",
-                () -> taskService.createTask(taskDto));
+                () -> taskService.createTask(taskDto, userId));
     }
 
     @PutMapping("/updateTask")
-    public Response updateTask(TaskDto taskDto) {
+    public Response updateTask(TaskDto taskDto, HttpServletRequest request) {
+        Long userId = getUsername(request);
+
         return handleResponse("task updated",
-                () -> taskService.updateTask(taskDto));
+                () -> taskService.updateTask(taskDto, userId));
     }
 
     @PostMapping("/createComment")
-    public Response createComment(CommentDto commentDto) {
+    public Response createComment(CommentDto commentDto, HttpServletRequest request) {
+        Long userId = getUsername(request);
+
         return handleResponse("asset test created",
-                () -> taskCommentService.createComment(commentDto));
+                () -> taskCommentService.createComment(commentDto, userId));
     }
 
     @DeleteMapping("/deleteComment")

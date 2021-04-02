@@ -8,15 +8,6 @@ public class LogicFailException extends RuntimeException {
         super();
     }
 
-    public LogicFailException(String message, Throwable cause, boolean enableSuppression,
-                              boolean writableStackTrace) {
-        super(message, cause, enableSuppression, writableStackTrace);
-    }
-
-    public LogicFailException(String message, Throwable cause) {
-        super(message, cause);
-    }
-
     public LogicFailException(String message) {
         super(message);
     }

@@ -6,6 +6,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+import java.io.Serializable;
 import java.util.Date;
 
 import static com.taskTracker.service.util.Constants.DATE_TIME_FORMAT;
@@ -13,7 +14,9 @@ import static com.taskTracker.service.util.Constants.DATE_TIME_FORMAT;
 @Getter
 @Setter
 @NoArgsConstructor
-public class CommentDto {
+public class CommentDto implements Serializable {
+
+    private static final long serialVersionUID = -5259204866794981163L;
 
     private Long commentId;
 
