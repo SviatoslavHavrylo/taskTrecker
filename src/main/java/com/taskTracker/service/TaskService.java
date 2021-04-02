@@ -147,7 +147,12 @@ public class TaskService {
     }
 
     private void populateTask(Task task, TaskDto taskDto, Long userId) {
+        task.setTitle(taskDto.getTitle());
+        task.setDescription(taskDto.getDescription());
         task.setStatus(taskDto.getStatusId());
+
+        User author = userService.findUserById(userId);
+        task.setAuthor(author);
 
         User assignee = userService.findUserById(taskDto.getAssigneeId());
         task.setAssignee(assignee);
